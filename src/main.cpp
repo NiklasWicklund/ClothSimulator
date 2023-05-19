@@ -132,7 +132,6 @@ public:
      * @param dt the time since the last update
      */
     void update(float dt) {
-        float gravity = -9.82;
         float drag = 0.02;
         // Apply verlet integration to all vertices except the fixed ones
         for (int r = 0; r < rows; ++r) {
@@ -164,6 +163,8 @@ public:
      * 
      */
     void satisfyConstraints() {
+
+        int breakingLimit = 20;
         for (int r = 0; r < rows; ++r) {
             for (int c = 0; c < cols; ++c) {
                 if (vertices[r][c].fixed || vertices[r][c].destroyed) continue;
@@ -175,7 +176,7 @@ public:
                     float tmp = distance / segmentLength;
 
                     // If the distance between two vertices is too large while no vertex is grabbed, destroy the concerned vertices
-                    if (tmp > 20 && grabbedVertex == nullptr) {
+                    if (tmp > breakingLimit && grabbedVertex == nullptr) {
                         vertices[r][c].destroyed = true; vertices[r][c - 1].destroyed = true;
                         return;
                     }
@@ -198,7 +199,7 @@ public:
                     float distance = glm::length(delta);
                     float tmp = distance / segmentLength;
 
-                    if (tmp > 20 && grabbedVertex == nullptr) {
+                    if (tmp > breakingLimit && grabbedVertex == nullptr) {
                         vertices[r][c].destroyed = true; vertices[r - 1][c].destroyed = true;
                         return;
                     }
@@ -325,7 +326,6 @@ int main() {
     float dt = 0;
     
     while (!glfwWindowShouldClose(window)) {
-        
         // Calculate the time since the last update (deltaTime dt)
         dt = glfwGetTime() - lastUpdateTime;
         lastUpdateTime = glfwGetTime();
