@@ -1,5 +1,7 @@
 # ClothSimulator
 This is a Cloth Simulator made in C++ with GLFW and GLM, made for the DH2323 Project at KTH
+
+A short video showcasing the simulation can be found on [Youtube](https://www.youtube.com/watch?v=9gnUJxzgzdY).
 # Build & Run Program
 
 ## 1. Installing dependencies (Linux)
